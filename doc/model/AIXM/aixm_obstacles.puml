@@ -1,0 +1,31 @@
+@startuml AIXM 4.5 - Obstacles
+
+!define CORE_COLOR #FFE6CC
+!define ENTITY_COLOR #E8F4F8
+!define UID_COLOR #FFD4D4
+
+title AIXM 4.5 - Obstacles
+
+package "Modèles de Données" <<Rectangle>> CORE_COLOR {
+    class Obs {
+        + XMLName : xml.Name
+        + ObsUid : ObsUid
+        + TxtName : string
+        + TxtDescrType : string
+        + CodeGroup : string
+        + CodeLgt : string
+        + TxtDescrLgt : string
+        + ValGeoAccuracy : int
+    }
+
+    class ObsUid <<UID>> UID_COLOR {
+        + Mid : int
+        + GeoLat : string
+        + GeoLong : string
+    }
+
+    ' Relations de composition (losange plein)
+    Obs *-- ObsUid : contient
+}
+
+@enduml

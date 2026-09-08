@@ -1,0 +1,63 @@
+@startuml AIXM 4.5 - Points Significatifs
+
+!define CORE_COLOR #FFE6CC
+!define ENTITY_COLOR #E8F4F8
+!define UID_COLOR #FFD4D4
+
+title AIXM 4.5 - Points Significatifs
+
+package "Modèles de Données" <<Rectangle>> CORE_COLOR {
+    class AhpUidAssoc <<UID>> UID_COLOR {
+        + Mid : int
+        + CodeId : string
+    }
+
+    class Dpn {
+        + XMLName : xml.Name
+        + DpnUid : DpnUid
+        + AhpUidAssoc : AhpUidAssoc
+        + CodeDatum : string
+        + ValCrc : string
+        + CodeType : string
+        + TxtName : string
+        + TxtRmk : string
+    }
+
+    class DpnUid <<UID>> UID_COLOR {
+        + Mid : int
+        + CodeId : string
+        + GeoLat : string
+        + GeoLong : string
+    }
+
+    class DpnUidSpn <<UID>> UID_COLOR {
+        + Mid : int
+        + CodeId : string
+        + GeoLat : string
+        + GeoLong : string
+    }
+
+    class Spa {
+        + XMLName : xml.Name
+        + SpaUid : SpaUid
+        + CodeType : string
+        + TxtRmk : string
+    }
+
+    class SpaUid <<UID>> UID_COLOR {
+        + Mid : int
+        + DpnUidSpn : DpnUidSpn
+        + AseUid : AseUid
+    }
+
+    ' Relations de composition (losange plein)
+    Dpn *-- DpnUid : contient
+    Dpn *-- AhpUidAssoc : aérodrome associé
+    Spa *-- SpaUid : contient
+
+    ' Relations de référence (flèche simple)
+    SpaUid --> DpnUidSpn : point significatif
+    SpaUid --> AseUid : espace aérien
+}
+
+@enduml

@@ -1,0 +1,101 @@
+@startuml AIXM 4.5 - Espaces Aériens
+
+!define CORE_COLOR #FFE6CC
+!define ENTITY_COLOR #E8F4F8
+!define UID_COLOR #FFD4D4
+
+title AIXM 4.5 - Espaces Aériens et Relations
+
+package "Modèles de Données" <<Rectangle>> CORE_COLOR {
+    
+    class Ase {
+        + XMLName : xml.Name
+        + AseUid : AseUid
+        + TxtName : string
+        + CodeDistVerUpper : string
+        + ValDistVerUpper : string
+    }
+    
+    class AseUid <<UID>> UID_COLOR {
+        + Mid : int
+        + CodeType : string
+        + CodeId : string
+    }
+    
+    class Abd {
+        + XMLName : xml.Name
+        + AbdUid : AbdUid
+        + Avx : []Avx
+    }
+    
+    class AbdUid <<UID>> UID_COLOR {
+        + Mid : int
+        + AseUid : AseUid
+    }
+    
+    class Avx {
+        + CodeType : string
+        + GeoLat : string
+        + GeoLong : string
+        + CodeDatum : string
+    }
+    
+    class Adg {
+        + XMLName : xml.Name
+        + AdgUid : AdgUid
+        + AseUidBase : AseUidBase
+        + CodeOpr : string
+    }
+    
+    class AdgUid <<UID>> UID_COLOR {
+        + AseUid : AseUid
+    }
+    
+    class Gbr {
+        + XMLName : xml.Name
+        + GbrUid : GbrUid
+        + CodeType : string
+        + Gbv : []Gbv
+    }
+    
+    class GbrUid <<UID>> UID_COLOR {
+        + Mid : int
+        + TxtName : string
+    }
+    
+    class Gbv {
+        + CodeType : string
+        + GeoLat : string
+        + GeoLong : string
+    }
+    
+    class Sae {
+        + XMLName : xml.Name
+        + SaeUid : SaeUid
+    }
+    
+    class SaeUid <<UID>> UID_COLOR {
+        + Mid : int
+        + SerUid : SerUid
+        + AseUid : AseUid
+    }
+
+    ' Relations de composition (losange plein)
+    Ase *-- AseUid : contient
+    Abd *-- AbdUid : contient
+    Adg *-- AdgUid : contient
+    Gbr *-- GbrUid : contient
+    Sae *-- SaeUid : contient
+    
+    ' Relations d'agrégation (losange vide - collection)
+    Abd o-- "many" Avx : utilise
+    Gbr o-- "many" Gbv : utilise
+    
+    ' Relations de référence (flèche simple)
+    AbdUid --> AseUid : référence
+    AdgUid --> AseUid : référence
+    SaeUid --> AseUid : référence
+    Adg --> AseUid : base
+}
+
+@enduml

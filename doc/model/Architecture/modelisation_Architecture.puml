@@ -1,0 +1,120 @@
+@startuml modelisation-architecture
+title Vue Architecture Globale - Autostructuration de l'Espace Aérien
+
+package "Backend" {
+  package "cmd" {
+    package "api" {
+      note as N1
+        Point d'entrée du serveur API
+        main.go
+      end note
+    }
+  }
+
+  package "internal" {
+    package "agents" {
+      note as N2
+        Agents autonomes:
+        - aircraft.go
+        - towerControl.go
+      end note
+    }
+
+    package "environment" {
+      note as N3
+        Gestion de l'environnement
+        de simulation
+      end note
+    }
+
+    package "model" {
+      note as N4
+        Structures de données
+        (Object, Coordinate, etc.)
+      end note
+    }
+
+    package "objects" {
+      note as N5
+        Objets passifs de la simulation
+      end note
+    }
+
+    package "services" {
+      note as N6
+        Logique métier et orchestration
+      end note
+    }
+
+    package "repository" {
+      note as N7
+        Accès aux données
+        et persistence
+      end note
+    }
+
+    package "api" {
+      package "handlers" {
+        note as N8
+          Gestionnaires de requêtes HTTP
+        end note
+      }
+
+      package "middleware" {
+        note as N9
+          Middlewares (authentification, logging, etc.)
+        end note
+      }
+
+      package "routes" {
+        note as N10
+          Définition des routes API
+        end note
+      }
+    }
+
+    package "config" {
+      note as N11
+        Configuration de l'application
+      end note
+    }
+  }
+}
+
+package "Frontend" {
+  package "components" {
+    note as F1
+      Composants React réutilisables
+    end note
+  }
+
+  package "pages" {
+    note as F2
+      Page de l'application
+    end note
+  }
+
+  note as F3
+    App.js - Composant racine
+    index.js - Point d'entrée
+  end note
+}
+
+'====================
+' RELATIONS
+'====================
+
+cmd ..> internal : uses
+handlers ..> services : calls
+services ..> agents : orchestrates
+services ..> environment : manages
+services ..> model : uses
+services ..> repository : persists
+environment ..> objects : contains
+environment ..> agents : contains
+agents ..> model : uses
+
+
+Frontend ..> Backend : "HTTP/REST API"
+
+@enduml

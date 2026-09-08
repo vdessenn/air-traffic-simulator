@@ -1,0 +1,14 @@
+Air Traffic Simulator
+Copyright 2026 Jean-Daniel Boutin, Victor Dessenne, Maksen Ghrous, Paul Wacquet
+
+This product includes software developed as project AI30 at
+Université de Technologie de Compiègne (autumn 2025).
+
+This product consumes, but does not redistribute, the following third-party data:
+
+  - AIXM 4.5 aeronautical information for France, published by the Service de
+    l'Information Aéronautique (SIA), Direction Générale de l'Aviation Civile.
+    https://www.sia.aviation-civile.gouv.fr/
+
+  - Live ADS-B aircraft positions from the adsb.lol community feed.
+    https://api.adsb.lol/

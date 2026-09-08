@@ -1,0 +1,122 @@
+@startuml modelisation
+title Vue Simulation - Modélisation de l'Autostructuration de l'Espace Aérien (Go)
+
+'====================
+' STRUCTURES DE BASE
+'====================
+
+abstract class Simulation {
+    Name : string
+    StartTime : DateTime
+    EndTime : DateTime
+    + Initialize() : void
+    + Run() : void
+    + Terminate() : void
+}
+
+abstract class Environment {
+    WeatherConditions : Weather
+    AirTrafficDensity : float64
+    + UpdateConditions() : void
+}
+
+class Weather {
+    WindSpeed : float64
+    WindDirection : float64
+    Visibility : float64
+    + GetCurrentWeather() : string
+}
+
+class AirTraffic {
+    CurrentAircraft : []Aircraft
+    + AddAircraft(aircraft : Aircraft) : void
+    + RemoveAircraft(aircraft : Aircraft) : void
+    + GetTrafficDensity() : float64
+}
+
+class SimulationMetrics {
+    TotalFlights : int
+    AverageDelay : float64
+    CollisionIncidents : int
+    + GenerateReport() : string
+}
+
+abstract class Object {
+    ID : int
+    Position : Coordinate
+    + State() : string
+    + Update() : void
+}
+
+class Coordinate {
+    Latitude : float64
+    Longitude : float64
+    Altitude : int
+}
+
+class Agent {
+}
+
+class Aircraft {
+}
+
+class TowerControl {
+}
+
+class DetectionSystem {
+}
+
+class CollisionRisk {
+}
+
+class Infrastructure {
+}
+
+class Airfield {
+}
+
+class Runway {
+}
+
+class AirspaceSector {
+}
+
+class RiskAnalyzer {
+}
+
+class WaypointRisk {
+}
+
+class DynamicRisk {
+}
+
+'====================
+' RELATIONS
+'====================
+Environment *-- Object : "contains"
+Object *-- "1..*" Agent : "is an"
+Object *-- "1..*" Infrastructure
+Object *-- "1..*" DetectionSystem
+Agent *-- "1..*" Aircraft : "is an"
+Agent *-- "1..*" TowerControl : "is an"
+
+Simulation *-- "1" Environment : "has"
+Simulation *-- "1" AirTraffic : "has"
+Simulation *-- "1" SimulationMetrics : "has"
+
+DetectionSystem *-- "0..*" CollisionRisk : "to detect"
+DetectionSystem *-- "1" RiskAnalyzer : "uses"
+
+CollisionRisk o-- "1..*" WaypointRisk : "related to"
+CollisionRisk o-- "1..*" DynamicRisk : "related to"
+
+Infrastructure *-- "1..*" Airfield : "is an"
+Infrastructure *-- "1..*" AirspaceSector : "is an"
+
+Airfield *-- "1..*" Runway : "has"
+
+Aircraft <-> TowerControl : "communicates with"
+TowerControl .> Aircraft : "can control"
+
+Agent ..> DetectionSystem : "utilizes"
+@enduml

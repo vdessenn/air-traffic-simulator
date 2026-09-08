@@ -1,0 +1,73 @@
+@startuml modelisation_Infrastructure
+title Vue Infrastructure - Modélisation de l'Infrastructure Aéroportuaire et Aérienne (Go)
+'====================
+' STRUCTURES DE BASE
+'====================
+
+abstract class Object {
+    ID : int
+    Position : Coordinate
+}
+
+class Coordinate {
+    Latitude : float64
+    Longitude : float64
+    Altitude : int
+}
+
+abstract class Infrastructure {
+
+}
+
+class Airfield {
+    Infrastructure
+    NameOACI : string
+    Runways : []Runway
+    + OpenToTraffic() : bool
+}
+
+class Runway {
+    Name : string
+    Length : int
+    + IsInService() : bool
+}
+
+class AirspaceSector {
+    Infrastructure
+    Code : SectorName
+    Type : AirspaceType
+    Category : AirspaceCategory
+    Boundaries : []Coordinate
+}
+
+enum SectorName {
+    FIR_BREST
+    FIR_PARIS
+    FIR_REIMS
+    FIR_MARSEILLE
+}
+
+enum AirspaceType {
+    CONTROLLED
+    UNCONTROLLED
+}
+
+enum AirspaceCategory {
+    A
+    B
+    C
+    D
+    E
+    F
+    G
+}
+
+'====================
+' RELATIONS
+'====================
+Object *-- "1..*" Infrastructure
+Infrastructure *-- "1..*" Airfield : "is an"
+Infrastructure *-- "1..*" AirspaceSector : "is an"
+Airfield *-- "1..*" Runway : "has"
+
+@enduml

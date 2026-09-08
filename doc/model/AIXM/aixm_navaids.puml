@@ -1,0 +1,199 @@
+@startuml AIXM 4.5 - Aides à la Navigation
+
+!define CORE_COLOR #FFE6CC
+!define ENTITY_COLOR #E8F4F8
+!define UID_COLOR #FFD4D4
+
+title AIXM 4.5 - Aides à la Navigation
+
+package "Modèles de Données" <<Rectangle>> CORE_COLOR {
+    class Dme {
+        + XMLName : xml.Name
+        + DmeUid : DmeUid
+        + OrgUid : OrgUid
+        + VorUid : VorUid
+        + TxtName : string
+        + CodeChannel : string
+        + ValGhostFreq : float64
+        + UomGhostFreq : string
+    }
+
+    class DmeUid <<UID>> UID_COLOR {
+        + Mid : int
+        + CodeId : string
+        + GeoLat : string
+        + GeoLong : string
+    }
+
+    class Dtt {
+        + CodeWorkHr : string
+    }
+
+    class Igp {
+        + ValFreq : float64
+        + UomFreq : string
+        + ValSlope : float64
+        + ValRdh : float64
+        + GeoLat : string
+        + GeoLong : string
+        + CodeDatum : string
+        + ValElev : int
+    }
+
+    class Igt {
+        + CodeWorkHr : string
+        + TxtRmkWorkHr : string
+    }
+
+    class Ils {
+        + XMLName : xml.Name
+        + IlsUid : IlsUid
+        + DmeUid : DmeUid
+        + CodeCat : string
+        + Ilz : Ilz
+        + Igp : Igp
+    }
+
+    class IlsUid <<UID>> UID_COLOR {
+        + Mid : int
+        + RdnUid : RdnUid
+    }
+
+    class Ilt {
+        + CodeWorkHr : string
+    }
+
+    class Ilz {
+        + CodeId : string
+        + ValFreq : float64
+        + UomFreq : string
+        + GeoLat : string
+        + GeoLong : string
+        + CodeDatum : string
+        + ValElev : int
+        + UomDistVer : string
+    }
+
+    class Mkr {
+        + XMLName : xml.Name
+        + MkrUid : MkrUid
+        + OrgUid : OrgUid
+        + IlsUid : IlsUid
+        + CodePsnIls : int
+        + ValFreq : float64
+        + UomFreq : string
+        + CodeDatum : string
+    }
+
+    class MkrUid <<UID>> UID_COLOR {
+        + Mid : int
+        + CodeId : string
+        + GeoLat : string
+        + GeoLong : string
+    }
+
+    class Mkt {
+        + CodeWorkHr : string
+    }
+
+    class Ndb {
+        + XMLName : xml.Name
+        + NdbUid : NdbUid
+        + OrgUid : OrgUid
+        + TxtName : string
+        + CodeType : string
+        + ValFreq : int
+        + UomFreq : string
+        + CodeClass : string
+    }
+
+    class NdbUid <<UID>> UID_COLOR {
+        + Mid : int
+        + CodeId : string
+        + GeoLat : string
+        + GeoLong : string
+    }
+
+    class Ntt {
+        + CodeWorkHr : string
+        + TxtRmkWorkHr : string
+    }
+
+    class Tcn {
+        + XMLName : xml.Name
+        + TcnUid : TcnUid
+        + OrgUid : OrgUid
+        + VorUid : VorUid
+        + TxtName : string
+        + CodeChannel : string
+        + CodeDatum : string
+        + Ttt : Ttt
+    }
+
+    class TcnUid <<UID>> UID_COLOR {
+        + Mid : int
+        + CodeId : string
+        + GeoLat : string
+        + GeoLong : string
+    }
+
+    class Ttt {
+        + CodeWorkHr : string
+    }
+
+    class Vor {
+        + XMLName : xml.Name
+        + VorUid : VorUid
+        + OrgUid : OrgUid
+        + TxtName : string
+        + CodeType : string
+        + ValFreq : float64
+        + UomFreq : string
+        + CodeTypeNorth : string
+    }
+
+    class VorUid <<UID>> UID_COLOR {
+        + Mid : int
+        + CodeId : string
+        + GeoLat : string
+        + GeoLong : string
+    }
+
+    class Vtt {
+        + CodeWorkHr : string
+        + TxtRmkWorkHr : string
+    }
+
+    ' Relations de composition (losange plein)
+    Dme *-- DmeUid : contient
+    Ils *-- IlsUid : contient
+    Ils *-- Ilz : localizer
+    Ils *-- Igp : glidepath
+    Mkr *-- MkrUid : contient
+    Ndb *-- NdbUid : contient
+    Tcn *-- TcnUid : contient
+    Vor *-- VorUid : contient
+
+    ' Relations d'agrégation (losange vide - collection)
+    Tcn o-- Ttt : horaires
+    Ils o-- Ilt : horaires LOC
+    Ils o-- Igt : horaires GP
+    Mkr o-- Mkt : horaires
+    Dme o-- Dtt : horaires
+    Ndb o-- Ntt : horaires
+    Vor o-- Vtt : horaires
+
+    ' Relations de référence (flèche simple)
+    DmeUid --> OrgUid : exploitant
+    DmeUid --> VorUid : collocation
+    IlsUid --> RdnUid : direction piste
+    Ils --> DmeUid : DME associé
+    MkrUid --> OrgUid : exploitant
+    MkrUid --> IlsUid : ILS
+    NdbUid --> OrgUid : exploitant
+    TcnUid --> OrgUid : exploitant
+    TcnUid --> VorUid : collocation
+    VorUid --> OrgUid : exploitant
+}
+
+@enduml

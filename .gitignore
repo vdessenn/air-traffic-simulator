@@ -1,0 +1,48 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Code coverage profiles and other test artifacts
+*.out
+coverage.*
+*.coverprofile
+profile.cov
+
+# Go workspace file
+go.work
+go.work.sum
+
+# env file
+.env
+
+# Editor/IDE
+.idea/
+.vscode/
+
+# Logs
+*.log
+
+# Dependency directories
+node_modules/
+
+# Build output
+bin/
+air-traffic-simulator
+
+# Data — see the "Data setup" section of the README.
+# Raw AIXM 4.5 export from the French SIA (~125 MB), plus everything derived
+# from it. None of it is versioned: the app regenerates the derived files on
+# startup, and the raw export is redistributed by the SIA, not by us.
+db/sia/*
+!db/sia/README.md
+db/json/
+db/routes/
+
+# Third-party research papers, not ours to redistribute
+doc/pdfs/

@@ -1,0 +1,32 @@
+@startuml AIXM 4.5 - Gestion du Temps
+
+!define CORE_COLOR #FFE6CC
+!define ENTITY_COLOR #E8F4F8
+!define UID_COLOR #FFD4D4
+
+title AIXM 4.5 - Gestion du Temps
+
+package "Modèles de Données" <<Rectangle>> CORE_COLOR {
+    class Spd {
+        + XMLName : xml.Name
+        + SpdUid : SpdUid
+        + TxtName : string
+        + TxtRmk : string
+    }
+
+    class SpdUid <<UID>> UID_COLOR {
+        + Mid : int
+        + OrgUid : OrgUid
+        + CodeType : string
+        + DateDay : string
+        + DateYear : string
+    }
+
+    ' Relations de composition (losange plein)
+    Spd *-- SpdUid : contient
+
+    ' Relations de référence (flèche simple)
+    SpdUid --> OrgUid : organisation
+}
+
+@enduml

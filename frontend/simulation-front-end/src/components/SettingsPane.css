@@ -1,0 +1,25 @@
+.settings-pane {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: white;
+  width: 700px;
+  height: 100px;
+  left: calc(50vw - 350px);
+  position: absolute;
+  bottom: 0px;
+  z-index: 2000;
+  margin: 0 auto;
+  border-radius: 25px 25px 0 0;
+  gap: 25px;
+}
+
+#speed-settings-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.column-settings-pane {
+  flex: 1;
+}

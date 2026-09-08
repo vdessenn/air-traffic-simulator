@@ -1,0 +1,64 @@
+@startuml modelisation-Detection
+title Vue Détection - Modélisation des Risques de Collision et de la Détection (Go)
+'====================
+' STRUCTURES DE BASE
+'====================
+abstract class Object {
+    ID : int
+    Position : Coordinate
+    + Update() : void
+}
+
+class Coordinate {
+    Latitude : float64
+    Longitude : float64
+    Altitude : int
+}
+
+
+class DetectionSystem {
+    Name : string
+    + DetectRisks() : []CollisionRisk
+}
+
+abstract class RiskAnalyzer {
+    + AnalyzeRisks(detections : []CollisionRisk) : []CollisionRisk
+    + PrioritizeRisks(risks : []CollisionRisk) : []CollisionRisk
+    + GenerateReports(risks : []CollisionRisk) : string
+}
+
+abstract class CollisionRisk {
+    RiskLevel : RiskLevel
+    radius : int
+    + GetSeverity() : string
+    + GetLevel() : RiskLevel
+    + IsInZone(coord : Coordinate) : bool
+}
+
+enum RiskLevel {
+  Collision
+  RiskOfCollision
+  SafetyNotAssured
+  NoRiskOfCollision
+  RiskUnknown
+}
+
+class WaypointRisk {
+    ConflictWaypoint : Waypoint
+    ConcernedAircraft : []Aircraft
+}
+
+class DynamicRisk {
+  Aircraft1 : Aircraft
+  Aircraft2 : Aircraft
+  ClosureRate : float64
+}
+'====================
+' RELATIONS
+'====================
+Object *-- "1..*" DetectionSystem
+DetectionSystem *-- "1" RiskAnalyzer : "uses"
+DetectionSystem *-- "0..*" CollisionRisk : "to detect"
+CollisionRisk o-- "1..*" WaypointRisk : "related to"
+CollisionRisk o-- "1..*" DynamicRisk : "related to"
+@enduml

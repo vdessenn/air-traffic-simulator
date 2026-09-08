@@ -1,0 +1,93 @@
+@startuml modelisation_Agents
+title Vue Agents - Modélisation des Agents (Go)
+'====================
+' STRUCTURES DE BASE
+'====================
+
+abstract class Object {
+    ID : int
+    Position : Coordinate
+    SignalStrength : float64
+    LastUpdated : string
+    + State() : string
+    + Update() : void
+}
+
+class Coordinate {
+    Latitude : float64
+    Longitude : float64
+    Altitude : int
+}
+
+class CommunicationType {
+    Name : string
+    Frequency : float64
+    Range : float64
+}
+
+abstract class Agent {
+    Callsign : string
+    + Percept() : void
+    + Decide() : void
+    + Act() : void
+    + Communicate() : void
+    + SetCommunicationUsed(commType : CommunicationType) : void
+}
+
+class Aircraft {
+    Agent
+    Type : AircraftType
+    Speed : float64
+    Acceleration : float64
+    ClimbRate : float64
+    TurnRadius : float64    
+    Heading : int
+    RemainingFuel : float64
+    Autonomy : float64
+    FlightTime : string
+    BurnRate : float64
+    CommunicationUsed : []CommunicationType
+    NextWaypoint : Waypoint
+    PreviousWaypoint : Waypoint
+    FlightPlan : []Waypoint
+    + Navigate() : void
+
+    ' Actions spécifiques paramétrées
+    + SetSpeed(newSpeed : float64) : void
+    + SetAcceleration(newAcceleration : float64) : void
+    + SetClimbRate(newClimbRate : float64) : void
+    + SetTurnRadius(newTurnRadius : float64) : void
+    + SetAltitude(newAltitude : int) : void
+    + SetHeading(newHeading : int) : void
+    + SetFlightTime(newFlightTime : string) : void
+    + SetBurnRate(newBurnRate : float64) : void
+    + AjustTrajectory(newWaypoint : Waypoint) : void
+
+    + GetNextWaypoint() : Waypoint
+    + SetRemainingFuel(newRemainingFuel : float64) : void
+    + SetAutonomy(newAutonomy : float64) : void
+    + MonitorFuel() : void
+    + EmergencyProcedures() : void
+
+
+}
+
+class TowerControl {
+    Agent
+    ControlledAircraft : []Aircraft
+    + ManageTakeoffLanding() : void
+    + ManageAirspace() : void
+    + ManageCollisionRisks() : void
+}
+
+'====================
+' RELATIONS
+'====================
+Object *-- "1..*" Agent
+Agent *-- "1..*" Aircraft : "is an"
+Agent *-- "1..*" TowerControl : "is an"
+
+Aircraft <-> TowerControl : "communicates with"
+TowerControl .> Aircraft : "can control"
+
+@enduml

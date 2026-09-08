@@ -1,0 +1,223 @@
+@startuml AIXM 4.5 - Aérodromes et Infrastructure au Sol
+
+!define CORE_COLOR #FFE6CC
+!define ENTITY_COLOR #E8F4F8
+!define UID_COLOR #FFD4D4
+
+title AIXM 4.5 - Aérodromes et Infrastructure au Sol
+
+package "Modèles de Données" <<Rectangle>> CORE_COLOR {
+    class Agl {
+        + XMLName : xml.Name
+        + AglUid : AglUid
+        + GeoLat : string
+        + GeoLong : string
+        + CodeDatum : string
+        + Agt : Agt
+    }
+
+    class AglUid <<UID>> UID_COLOR {
+        + Mid : int
+        + TxtName : string
+        + CodeType : string
+    }
+
+    class Agt {
+        + CodeWorkHr : string
+        + TxtRmkWorkHr : string
+    }
+
+    class Aha {
+        + XMLName : xml.Name
+        + AhaUid : AhaUid
+        + TxtAddress : string
+    }
+
+    class AhaUid <<UID>> UID_COLOR {
+        + Mid : int
+        + AhpUid : AhpUid
+        + CodeType : string
+        + NoSeq : int
+    }
+
+    class Aho {
+        + XMLName : xml.Name
+        + AhoUid : AhoUid
+    }
+
+    class AhoUid <<UID>> UID_COLOR {
+        + ObsUid : ObsUid
+        + AhpUid : AhpUid
+    }
+
+    class Ahp {
+        + XMLName : xml.Name
+        + AhpUid : AhpUid
+        + OrgUid : OrgUid
+        + TxtName : string
+        + CodeIcao : string
+        + CodeIata : string
+        + CodeType : string
+        + TxtDescrRefPt : string
+    }
+
+    class AhpUid <<UID>> UID_COLOR {
+        + Mid : int
+        + CodeId : string
+    }
+
+    class Ahs {
+        + XMLName : xml.Name
+        + AhsUid : AhsUid
+        + Ast : Ast
+    }
+
+    class AhsUid <<UID>> UID_COLOR {
+        + Mid : int
+        + AhpUid : AhpUid
+        + CodeType : string
+    }
+
+    class Ahu {
+        + XMLName : xml.Name
+        + AhuUid : AhuUid
+        + UsageLimitation : []UsageLimitation
+    }
+
+    class AhuUid <<UID>> UID_COLOR {
+        + Mid : int
+        + AhpUid : AhpUid
+    }
+
+    class Apn {
+        + XMLName : xml.Name
+        + ApnUid : ApnUid
+        + CodeSts : string
+        + TxtMarking : string
+    }
+
+    class ApnUid <<UID>> UID_COLOR {
+        + Mid : int
+        + AhpUid : AhpUid
+        + TxtName : string
+    }
+
+    class Ast {
+        + CodeWorkHr : string
+        + TxtRmkWorkHr : string
+    }
+
+    class Gsd {
+        + XMLName : xml.Name
+        + GsdUid : GsdUid
+        + CodeType : string
+        + TxtDescrRestrUse : string
+        + GeoLat : string
+        + GeoLong : string
+        + CodeDatum : string
+        + UomDistVer : string
+    }
+
+    class GsdUid <<UID>> UID_COLOR {
+        + Mid : int
+        + ApnUid : ApnUid
+        + TxtDesig : string
+    }
+
+    class Pfy {
+        + XMLName : xml.Name
+        + PfyUid : PfyUid
+        + TxtDescr : string
+        + TxtRmk : string
+    }
+
+    class PfyUid <<UID>> UID_COLOR {
+        + Mid : int
+        + AhpUid : AhpUid
+        + CodeType : string
+        + NoSeq : int
+    }
+
+    class Sah {
+        + XMLName : xml.Name
+        + SahUid : SahUid
+    }
+
+    class SahUid <<UID>> UID_COLOR {
+        + Mid : int
+        + AhpUid : AhpUid
+        + SerUid : SerUid
+    }
+
+    class Swy {
+        + XMLName : xml.Name
+        + SwyUid : SwyUid
+        + ValLen : int
+        + UomDim : string
+        + CodeSts : string
+    }
+
+    class SwyUid <<UID>> UID_COLOR {
+        + Mid : int
+        + RdnUid : RdnUid
+    }
+
+    class Twy {
+        + XMLName : xml.Name
+        + TwyUid : TwyUid
+        + CodeType : string
+        + ValWid : int
+        + UomDim : string
+        + CodeComposition : string
+        + ValPcnClass : int
+        + CodePcnPavementType : string
+    }
+
+    class TwyUid <<UID>> UID_COLOR {
+        + Mid : int
+        + AhpUid : AhpUid
+        + TxtDesig : string
+    }
+
+    class UsageLimitation {
+        + CodeUsageLimitation : string
+        + AircraftClass : string
+        + FlightClassType : string
+        + FlightClassRule : string
+        + FlightClassOrigin : string
+        + FlightClassPurpose : string
+    }
+
+    ' Relations de composition (losange plein)
+    Agl *-- AglUid : contient
+    Agl *-- Agt : configuration
+    Aha *-- AhaUid : contient
+    Aho *-- AhoUid : contient
+    Ahp *-- AhpUid : contient
+    Ahs *-- AhsUid : contient
+    Ahu *-- AhuUid : contient
+    Apn *-- ApnUid : contient
+    Gsd *-- GsdUid : contient
+    Pfy *-- PfyUid : contient
+    Sah *-- SahUid : contient
+    Swy *-- SwyUid : contient
+    Twy *-- TwyUid : contient
+
+    ' Relations d'agrégation (losange vide - collection)
+    Ahu o-- "many" UsageLimitation : limitations
+
+    ' Relations de référence (flèche simple)
+    AhaUid --> AhpUid : référence
+    AhoUid --> AhpUid : référence
+    AhsUid --> AhpUid : référence
+    AhuUid --> AhpUid : référence
+    ApnUid --> AhpUid : référence
+    GsdUid --> ApnUid : référence
+    PfyUid --> AhpUid : référence
+    SahUid --> AhpUid : référence
+    SahUid --> SerUid : service
+    SwyUid --> RdnUid : direction piste
+    TwyUid --> AhpUid : référence
+}
+
+@enduml

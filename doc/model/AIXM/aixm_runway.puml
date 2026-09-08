@@ -1,0 +1,192 @@
+@startuml AIXM 4.5 - Pistes et Structures
+
+!define CORE_COLOR #FFE6CC
+!define ENTITY_COLOR #E8F4F8
+!define UID_COLOR #FFD4D4
+
+title AIXM 4.5 - Pistes et Structures
+
+package "Modèles de Données" <<Rectangle>> CORE_COLOR {
+    class FtoUid <<UID>> UID_COLOR {
+        + Mid : int
+        + AhpUid : AhpUid
+        + TxtDesig : string
+    }
+
+    class Nsc {
+        + XMLName : xml.Name
+        + NscUid : NscUid
+        + TxtRmk : string
+    }
+
+    class NscUid <<UID>> UID_COLOR {
+        + Mid : int
+        + GsdUid : GsdUid
+        + CodeType : string
+    }
+
+    class Rcp {
+        + XMLName : xml.Name
+        + RcpUid : RcpUid
+        + GeoLat : string
+        + GeoLong : string
+        + CodeDatum : string
+        + ValTrueBrg : float64
+        + UomTrueBrg : string
+        + ValMagBrg : float64
+    }
+
+    class RcpUid <<UID>> UID_COLOR {
+        + Mid : int
+        + RwyUid : RwyUid
+        + NoEnd : int
+    }
+
+    class Rda {
+        + XMLName : xml.Name
+        + RdaUid : RdaUid
+        + CodeType : string
+        + Rdt : Rdt
+    }
+
+    class RdaUid <<UID>> UID_COLOR {
+        + Mid : int
+        + RwyUid : RwyUid
+        + NoEnd : int
+    }
+
+    class Rdd {
+        + XMLName : xml.Name
+        + RddUid : RddUid
+        + ValTora : int
+        + UomTora : string
+        + ValToda : int
+        + UomToda : string
+        + ValAsda : int
+        + UomAsda : string
+    }
+
+    class RddUid <<UID>> UID_COLOR {
+        + Mid : int
+        + RwyUid : RwyUid
+        + NoEnd : int
+    }
+
+    class Rdn {
+        + XMLName : xml.Name
+        + RdnUid : RdnUid
+        + CodeDesignator : string
+        + ValMagHeading : string
+        + UomMagHeading : string
+        + ValTrueHeading : string
+        + UomTrueHeading : string
+    }
+
+    class RdnUid <<UID>> UID_COLOR {
+        + Mid : int
+        + RwyUid : RwyUid
+        + TxtDesig : string
+    }
+
+    class Rdt {
+        + CodeWorkHr : string
+        + TxtRmkWorkHr : string
+    }
+
+    class Rls {
+        + XMLName : xml.Name
+        + RlsUid : RlsUid
+        + CodeType : string
+        + Rlt : Rlt
+    }
+
+    class RlsUid <<UID>> UID_COLOR {
+        + Mid : int
+        + RwyUid : RwyUid
+        + NoEnd : int
+    }
+
+    class Rlt {
+        + CodeWorkHr : string
+        + TxtRmkWorkHr : string
+    }
+
+    class Rpa {
+        + XMLName : xml.Name
+        + RpaUid : RpaUid
+        + ValWidth : int
+        + UomWidth : string
+        + ValLength : int
+        + UomLength : string
+    }
+
+    class RpaUid <<UID>> UID_COLOR {
+        + Mid : int
+        + RwyUid : RwyUid
+        + NoEnd : int
+    }
+
+    class Rwy {
+        + XMLName : xml.Name
+        + RwyUid : RwyUid
+        + ValLen : int
+        + UomDimRwy : string
+        + CodeComposition : string
+        + CodePcnPavementType : string
+        + CodePcnPavementSubgrade : string
+        + CodePcnMaxTirePressure : string
+    }
+
+    class RwyUid <<UID>> UID_COLOR {
+        + Mid : int
+        + AhpUid : AhpUid
+        + TxtDesig : string
+    }
+
+    class Tla {
+        + XMLName : xml.Name
+        + TlaUid : TlaUid
+        + FtoUid : FtoUid
+        + GeoLat : string
+        + GeoLong : string
+        + CodeDatum : string
+        + ValElev : int
+        + ValGeoidUndulation : int
+    }
+
+    class TlaUid <<UID>> UID_COLOR {
+        + Mid : int
+        + AhpUid : AhpUid
+        + TxtDesig : string
+    }
+
+    ' Relations de composition (losange plein)
+    Nsc *-- NscUid : contient
+    Rcp *-- RcpUid : contient
+    Rda *-- RdaUid : contient
+    Rdd *-- RddUid : contient
+    Rdn *-- RdnUid : contient
+    Rls *-- RlsUid : contient
+    Rpa *-- RpaUid : contient
+    Rwy *-- RwyUid : contient
+    Tla *-- TlaUid : contient
+
+    ' Relations d'agrégation (losange vide - collection)
+    Rda o-- Rdt : horaires
+    Rls o-- Rlt : horaires
+
+    ' Relations de référence (flèche simple)
+    NscUid --> GsdUid : gate/stand
+    RcpUid --> RwyUid : piste
+    RdaUid --> RwyUid : piste
+    RddUid --> RwyUid : piste
+    RdnUid --> RwyUid : piste
+    RlsUid --> RwyUid : piste
+    RpaUid --> RwyUid : piste
+    RwyUid --> AhpUid : aérodrome
+    TlaUid --> AhpUid : aérodrome
+    Tla --> FtoUid : FATO
+    FtoUid --> AhpUid : aérodrome
+}
+
+@enduml

@@ -1,0 +1,34 @@
+.metrics-overview {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: white;
+  right: 0px;
+  position: absolute;
+  top: 20px;
+  z-index: 2000;
+  margin: 0 auto;
+  border-radius: 25px 0 0 25px;
+  gap: 20px;
+  padding-right: 35px;
+}
+
+#risks-data-container {
+  display: flex;
+  flex-direction: horizontal;
+  align-items: center;
+  gap: 25px;
+  height: 40px;
+}
+
+.risk-category {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.large-number {
+  font-size: x-large;
+  margin-top: 8px;
+  margin-bottom: 0;
+}

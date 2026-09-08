@@ -1,0 +1,104 @@
+@startuml AIXM 4.5 - Organisations et Services
+
+!define CORE_COLOR #FFE6CC
+!define ENTITY_COLOR #E8F4F8
+!define UID_COLOR #FFD4D4
+
+title AIXM 4.5 - Organisations et Services
+
+package "Modèles de Données" <<Rectangle>> CORE_COLOR {
+    class Cdl {
+        + TxtCallSign : string
+        + CodeLang : string
+    }
+
+    class Fqy {
+        + XMLName : xml.Name
+        + FqyUid : FqyUid
+        + UomFreq : string
+        + Ftt : Ftt
+        + TxtRmk : string
+        + Cdl : []Cdl
+    }
+
+    class FqyUid <<UID>> UID_COLOR {
+        + Mid : int
+        + SerUid : SerUid
+        + ValFreqTrans : float64
+    }
+
+    class Ftt {
+        + CodeWorkHr : string
+        + TxtRmkWorkHr : string
+    }
+
+    class Org {
+        + XMLName : xml.Name
+        + OrgUid : OrgUid
+        + CodeId : string
+        + CodeType : string
+    }
+
+    class OrgUid <<UID>> UID_COLOR {
+        + Mid : int
+        + TxtName : string
+    }
+
+    class Ser {
+        + XMLName : xml.Name
+        + SerUid : SerUid
+        + GeoLat : string
+        + GeoLong : string
+        + CodeDatum : string
+        + ValCrc : string
+        + Stt : Stt
+        + TxtRmk : string
+    }
+
+    class SerUid <<UID>> UID_COLOR {
+        + Mid : int
+        + UniUid : UniUid
+        + CodeType : string
+        + NoSeq : int
+    }
+
+    class Stt {
+        + CodeWorkHr : string
+        + TxtRmkWorkHr : string
+    }
+
+    class Uni {
+        + XMLName : xml.Name
+        + UniUid : UniUid
+        + OrgUid : OrgUid
+        + AhpUid : AhpUid
+        + CodeType : string
+        + CodeClass : string
+        + GeoLat : string
+        + GeoLong : string
+    }
+
+    class UniUid <<UID>> UID_COLOR {
+        + Mid : int
+        + TxtName : string
+    }
+
+    ' Relations de composition (losange plein)
+    Fqy *-- FqyUid : contient
+    Org *-- OrgUid : contient
+    Ser *-- SerUid : contient
+    Uni *-- UniUid : contient
+
+    ' Relations d'agrégation (losange vide - collection)
+    Fqy o-- Ftt : horaires
+    Fqy o-- "many" Cdl : indicatifs
+    Ser o-- Stt : horaires
+
+    ' Relations de référence (flèche simple)
+    FqyUid --> SerUid : service
+    SerUid --> UniUid : unité
+    UniUid --> OrgUid : autorité
+    UniUid --> AhpUid : aérodrome
+}
+
+@enduml

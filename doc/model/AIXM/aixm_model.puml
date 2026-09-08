@@ -1,0 +1,78 @@
+@startuml AIXM 4.5 - Modèle Conceptuel Complet
+
+!define SNAPSHOT_COLOR #B3E5FC
+!define AERO_COLOR #FFE6CC
+!define AIRSPACE_COLOR #D5E8D4
+!define NAVAID_COLOR #CCE5FF
+!define ROUTE_COLOR #E6CCFF
+!define ORG_COLOR #FFCCCC
+!define POINT_COLOR #FFFFCC
+!define TIME_COLOR #FFF4E6
+
+title AIXM 4.5 - Architecture Conceptuelle Complète
+
+note as N1
+  **68 éléments principaux déclarés dans AIXMSnapshot**
+  Structurés en 9 catégories d'information aéronautique
+  Basé sur les données réelles du SIA
+end note
+
+package "AIXM-Snapshot Root Element" #B3E5FC {
+    
+    rectangle "Aérodromes & Infrastructure\n15 éléments" #FFE6CC {
+        note right
+          Primaires: Ahp, Rwy, Twy, Apn
+          Détails: Aha, Aho, Agl, Agt
+          Ahs, Ast, Ahu, Sah, Swy, Gsd, Pfy
+        end note
+    }
+
+    rectangle "Pistes & Directions\n11 éléments" #FFB366 {
+        note right
+          Structure: Rwy, Rdn, Rcp
+          Détails: Rda, Rdd, Rdt, Rls
+          Rlt, Rpa, Tla, Nsc
+        end note
+    }
+
+    rectangle "Espaces Aériens\n8 éléments" #D5E8D4 {
+        note right
+          Espaces: Ase, Abd, Adg
+          Géométrie: Avx, Fto, Gbr, Gbv, Sae
+        end note
+    }
+
+    rectangle "Aides Navigation\n15 éléments" #CCE5FF {
+        note right
+          Aides: Vor, Ndb, Dme, Tcn, Ils, Mkr
+          ILS: Ilz, Ilt, Igp, Igt
+          Timing: Dtt, Ttt, Vtt, Ntt, Mkt
+        end note
+    }
+
+    rectangle "Points Significatifs\n3 éléments" #FFFFCC {
+        note right
+          Dpn, Spa, Stt
+        end note
+    }
+
+    rectangle "Routes Aéronautiques\n9 éléments" #E6CCFF {
+        note right
+          Routes: Rte, Rsg, Rsu
+          Niveaux: Plb, Plc, Pll, Cdl
+          Timing: Rst, Rul
+        end note
+    }
+
+    rectangle "Organisations\n6 éléments" #FFCCCC {
+        note right
+          Org, Uni, Ser, Fqy
+          Timing: Ftt, Stt
+        end note
+    }
+
+    rectangle "Obstacles\n1 élément" #FFB3BA
+    rectangle "Gestion Temps\n1 élément" #FFF4E6
+}
+
+@enduml

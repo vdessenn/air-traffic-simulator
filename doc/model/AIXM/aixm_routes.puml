@@ -1,0 +1,133 @@
+@startuml AIXM 4.5 - Routes Aéronautiques
+
+!define CORE_COLOR #FFE6CC
+!define ENTITY_COLOR #E8F4F8
+!define UID_COLOR #FFD4D4
+
+title AIXM 4.5 - Routes Aéronautiques
+
+package "Modèles de Données" <<Rectangle>> CORE_COLOR {
+    class DpnUidEnd <<UID>> UID_COLOR {
+        + Mid : int
+        + CodeId : string
+        + GeoLat : string
+        + GeoLong : string
+    }
+
+    class DpnUidSta <<UID>> UID_COLOR {
+        + Mid : int
+        + CodeId : string
+        + GeoLat : string
+        + GeoLong : string
+    }
+
+    class Plb {
+        + XMLName : xml.Name
+        + PlbUid : PlbUid
+        + CodeDistVer : string
+        + UomDistVer : string
+    }
+
+    class PlbUid <<UID>> UID_COLOR {
+        + Mid : int
+        + CodeId : string
+    }
+
+    class Plc {
+        + XMLName : xml.Name
+        + PlcUid : PlcUid
+        + Pll : Pll
+    }
+
+    class PlcUid <<UID>> UID_COLOR {
+        + Mid : int
+        + PlbUid : PlbUid
+        + CodeId : string
+    }
+
+    class Pll {
+        + ValdDistVer : string
+    }
+
+    class Rsg {
+        + XMLName : xml.Name
+        + RsgUid : RsgUid
+        + CodeType : string
+        + CodeRnp : int
+        + CodeLvl : string
+        + ValDistVerUpper : string
+        + UomDistVerUpper : string
+        + CodeDistVerUpper : string
+    }
+
+    class RsgUid <<UID>> UID_COLOR {
+        + Mid : int
+        + RteUid : RteUid
+        + DpnUidSta : DpnUidSta
+        + DpnUidEnd : DpnUidEnd
+    }
+
+    class Rst {
+        + CodeWorkHr : string
+        + TxtRmkWorkHr : string
+    }
+
+    class Rsu {
+        + XMLName : xml.Name
+        + RsuUid : RsuUid
+        + Rul : Rul
+        + Rst : Rst
+    }
+
+    class RsuUid <<UID>> UID_COLOR {
+        + Mid : int
+        + Rsg : RsgUid
+        + CodeRteAvbl : string
+        + NoSeq : int
+        + CodeDir : string
+    }
+
+    class Rte {
+        + XMLName : xml.Name
+        + RteUid : RteUid
+        + TxtRmk : string
+    }
+
+    class RteUid <<UID>> UID_COLOR {
+        + Mid : int
+        + TxtDesig : string
+        + TxtLocDesig : string
+    }
+
+    class Rul {
+        + PlcUid : PlcUid
+        + ValDistVerLower : string
+        + UomDistVerLower : string
+        + CodeDistVerLower : string
+        + ValDistVerUpper : string
+        + UomDistVerUpper : string
+        + CodeDistVerUpper : string
+    }
+
+    ' Relations de composition (losange plein)
+    Plb *-- PlbUid : contient
+    Plc *-- PlcUid : contient
+    Rsg *-- RsgUid : contient
+    Rsu *-- RsuUid : contient
+    Rte *-- RteUid : contient
+
+    ' Relations d'agrégation (losange vide - collection)
+    Plc o-- Pll : niveaux
+    Rsu o-- Rul : règles
+    Rsu o-- Rst : horaires
+
+    ' Relations de référence (flèche simple)
+    PlcUid --> PlbUid : table niveaux
+    RsgUid --> RteUid : route
+    RsgUid --> DpnUidSta : point départ
+    RsgUid --> DpnUidEnd : point arrivée
+    RsuUid --> RsgUid : segment
+    Rul --> PlcUid : table niveaux
+}
+
+@enduml

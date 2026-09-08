@@ -1,0 +1,116 @@
+@startuml AIXM 4.5 - Architecture Complète
+
+!define CORE_COLOR #FFE6CC
+!define AERO_COLOR #FFE6CC
+!define AIRSPACE_COLOR #D5E8D4
+!define NAVAID_COLOR #CCE5FF
+!define ROUTE_COLOR #E6CCFF
+!define ORG_COLOR #FFCCCC
+!define POINT_COLOR #FFFFCC
+!define TIME_COLOR #FFF4E6
+!define SNAPSHOT_COLOR #B3E5FC
+
+title AIXM 4.5 - Architecture Complète du Modèle de Données
+
+skinparam linetype ortho
+
+rectangle "AIXM-Snapshot" #B3E5FC {
+    
+    package "Aérodromes & Infrastructure" <<Rectangle>> #FFE6CC {
+        collections "Ahp" as Ahp [AerodromeHeliport]
+        collections "Aha" as Aha [AerodromeAddress]
+        collections "Aho" as Aho [AerodromeObstacle]
+        collections "Agl" as Agl [AeronauticalGroundLight]
+        collections "Agt" as Agt [AerodromeHeliportAdditional]
+        collections "Ahs" as Ahs [GroundService]
+        collections "Ast" as Ast [AerodromeService]
+        collections "Ahu" as Ahu [AerodromeHeliportUsage]
+        collections "Sah" as Sah [AerodromeHeliportService]
+        collections "Twy" as Twy [Taxiway]
+        collections "Swy" as Swy [Stopway]
+        collections "Apn" as Apn [Apron]
+        collections "Gsd" as Gsd [GateStand]
+        collections "Pfy" as Pfy [PassengerFacility]
+        collections "Att" as Att [Attributes]
+    }
+    
+    package "Pistes" <<Rectangle>> #FFB366 {
+        collections "Rwy" as Rwy [Runway]
+        collections "Rcp" as Rcp [RunwayCentreLine]
+        collections "Rda" as Rda [RunwayDirectionApproach]
+        collections "Rdd" as Rdd [RunwayDirectionDistance]
+        collections "Rdn" as Rdn [RunwayDirection]
+        collections "Rdt" as Rdt [RunwayDirectionTime]
+        collections "Rls" as Rls [RunwayDirectionLighting]
+        collections "Rlt" as Rlt [RunwayDirectionLightingTime]
+        collections "Rpa" as Rpa [RunwayProtectionArea]
+        collections "Tla" as Tla [Tlof]
+        collections "Nsc" as Nsc [Checkpoint]
+    }
+    
+    package "Espaces Aériens" <<Rectangle>> #D5E8D4 {
+        collections "Ase" as Ase [Airspace]
+        collections "Abd" as Abd [AirspaceBorder]
+        collections "Adg" as Adg [AirspaceDerivedGeometry]
+        collections "Avx" as Avx [AirspaceVertex]
+        collections "Fto" as Fto [Fato]
+        collections "Gbr" as Gbr [GeographicalBorder]
+        collections "Gbv" as Gbv [GeometricBufferVertex]
+        collections "Sae" as Sae [AirspaceService]
+    }
+    
+    package "Aides à la Navigation" <<Rectangle>> #CCE5FF {
+        collections "Vor" as Vor [Vor]
+        collections "Ndb" as Ndb [Ndb]
+        collections "Dme" as Dme [Dme]
+        collections "Tcn" as Tcn [Tcn]
+        collections "Ils" as Ils [Ils]
+        collections "Ilz" as Ilz [IlsLocalizer]
+        collections "Ilt" as Ilt [IlsLocalizerTime]
+        collections "Igp" as Igp [IlsGlidePath]
+        collections "Igt" as Igt [IlsGlidePathTime]
+        collections "Mkr" as Mkr [Marker]
+        collections "Mkt" as Mkt [MarkerTime]
+        collections "Dtt" as Dtt [DmeTime]
+        collections "Ttt" as Ttt [TacanTime]
+        collections "Vtt" as Vtt [VorTime]
+        collections "Ntt" as Ntt [NdbTime]
+    }
+    
+    package "Points Significatifs" <<Rectangle>> #FFFFCC {
+        collections "Dpn" as Dpn [DesignatedPoint]
+        collections "Spa" as Spa [SignificantPointAirspace]
+        collections "Nsc" as Nsc2 [Checkpoint]
+    }
+    
+    package "Routes Aéronautiques" <<Rectangle>> #E6CCFF {
+        collections "Rte" as Rte [Route]
+        collections "Rsg" as Rsg [RouteSegment]
+        collections "Rsu" as Rsu [RouteSegmentUsage]
+        collections "Rst" as Rst [RouteSegmentTiming]
+        collections "Rul" as Rul [RouteUseDefinition]
+        collections "Plb" as Plb [CruisingLevelsTable]
+        collections "Plc" as Plc [CruisingLevelsColumn]
+        collections "Pll" as Pll [CruisingLevelsList]
+        collections "Cdl" as Cdl [CruisingLevelDefinition]
+    }
+    
+    package "Organisations & Services" <<Rectangle>> #FFCCCC {
+        collections "Org" as Org [OrganisationAuthority]
+        collections "Uni" as Uni [Unit]
+        collections "Ser" as Ser [Service]
+        collections "Fqy" as Fqy [Frequency]
+        collections "Ftt" as Ftt [FrequencyTime]
+        collections "Stt" as Stt [SignificantPointTime]
+    }
+    
+    package "Obstacles" <<Rectangle>> #FFB3BA {
+        collections "Obs" as Obs [Obstacle]
+    }
+    
+    package "Gestion du Temps" <<Rectangle>> #FFF4E6 {
+        collections "Spd" as Spd [SpecialDate]
+    }
+}
+
+@enduml
