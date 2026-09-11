@@ -46,3 +46,4 @@ db/routes/
 
 # Third-party research papers, not ours to redistribute
 doc/pdfs/
+doc/graph/
